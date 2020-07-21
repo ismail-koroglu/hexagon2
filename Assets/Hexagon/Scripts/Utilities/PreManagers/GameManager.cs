@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
-using Hexagon.Action;
 using UnityEngine;
 
 public class GameManager : CustomBehaviour
@@ -14,6 +13,7 @@ public class GameManager : CustomBehaviour
     public Constants Constants;
     public SelectionManager SelectionManager;
     public Calculator Calculator;
+    public ImgManager ImgManager;
 
     public event Action OnStartGame;
     public event Action OnCountdownFinished;
@@ -28,7 +28,7 @@ public class GameManager : CustomBehaviour
     public event Action OnStopRotation;
     public event Action OnCheckMatching;
     public event Action OnMatch;
-    
+
     public bool IsRotating;
 
     public void Awake()
@@ -43,6 +43,7 @@ public class GameManager : CustomBehaviour
         Constants.Initialize(this);
         SelectionManager.Initialize(this);
         Calculator.Initialize(this);
+        ImgManager.Initialize(this);
     }
 
     public void StartGame()

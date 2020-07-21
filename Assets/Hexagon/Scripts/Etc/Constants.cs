@@ -63,9 +63,20 @@ public class Constants : CustomBehaviour
         {HexPosType.InsideEven, InsideEvenNeighbor},
     };
 
-    #endregion
+    public static readonly int[] HexColorMap =
+    {
+        0, 1, 2, 3, 4, 5, 0, 1, 2, 3,
+        0, 1, 2, 3, 4, 5, 0, 1, 2, 3,
+        0, 1, 2, 3, 4, 5, 0, 1, 2, 3,
+        0, 1, 2, 3, 4, 5, 0, 1, 2, 3,
+        0, 1, 2, 3, 4, 5, 0, 1, 2, 3,
+        0, 1, 2, 3, 4, 5, 0, 1, 2, 3,
+        0, 1, 2, 3, 4, 5, 0, 1, 2, 3,
+        0, 1, 2, 3, 4, 5, 0, 1, 2, 3,
+        0, 1, 2, 3, 4, 5, 0, 1, 2, 3,
+        0, 1, 2, 3, 4, 5, 0, 1, 2, 3,
+    };
 
-    /****************************************************************************************/
     public readonly Color[] colors = new Color[6]
     {
         new Color(0.19f, 0.58f, 0.83f),
@@ -75,6 +86,11 @@ public class Constants : CustomBehaviour
         new Color(0.90f, 0.28f, 0.22f),
         new Color(0.93f, 0.74f, 0.03f)
     };
+
+    #endregion
+
+    /****************************************************************************************/
+
 
     public readonly int[] tripleKeyEven = {0, 1, 1, 1, 0, 2};
 
@@ -225,8 +241,8 @@ public enum GridSize
 
 public enum RotateType
 {
-    Vertical,
-    Horizontal
+    Cw = -1,
+    Ccw = 1
 }
 
 public enum ColorCount

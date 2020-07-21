@@ -8,12 +8,13 @@ public class GridManager : CustomBehaviour
 {
     public List<Slot> AllSlots = new List<Slot>();
     public List<Img> AllImgs = new List<Img>();
-    public List<int> Enviro = new List<int>();
+    public List<int> EnviroNos = new List<int>();
     public int[] TripleNos = new int[3];
-    public List<Slot> EnviroHex = new List<Slot>();
+    public List<Slot> EnviroSlots = new List<Slot>();
+    public List<Slot> TripleSlots = new List<Slot>();
+    public List<Img> TripleImgs = new List<Img>();
 
-    public List<Slot> TripleHex = new List<Slot>();
-
+    public RotateType rotateType;
     /****************************************************************************************/
 
     public GridSize gridSizeEnum;
@@ -69,6 +70,7 @@ public class GridManager : CustomBehaviour
 
         // Slots = new List<Slot>();
         // TripleHex =
+        startPoint = Random.Range(0, 20);
         SetGridSize();
         GenerateHex();
     }
@@ -114,14 +116,14 @@ public class GridManager : CustomBehaviour
                 var slotGo = Instantiate(slot);
                 slotGo.transform.position = new Vector3(posX, posY, 0);
                 slotGo.transform.parent = slotBkg;
-                slotGo.name = "Hex_" + order.ToString("00");
+                slotGo.name = "Slot_" + order.ToString("00");
                 var slotCmp = slotGo.GetComponent<Slot>();
                 slotCmp.Initialize(GameManager);
 
                 var imgGo = Instantiate(img);
                 imgGo.transform.position = new Vector3(posX, posY, 0);
                 imgGo.transform.parent = imgBkg;
-                imgGo.name = "Hex_" + order.ToString("00");
+                imgGo.name = "Img_" + order.ToString("00");
                 var imgCmp = imgGo.GetComponent<Img>();
                 imgCmp.Initialize(GameManager);
                 AllImgs.Add(imgCmp);
@@ -133,13 +135,14 @@ public class GridManager : CustomBehaviour
         }
     }
 
+    private int startPoint;
+
     private void SetHexConstructor(Slot slot, Img img, int no)
     {
-        var randomColorOrder = Random.Range(0, (int) colorCountEnum);
+        var randomColorOrder = Constants.HexColorMap[startPoint + no];
         var color = Constants.colors[randomColorOrder];
         var colorEnum = (HexColor) Enum.ToObject(typeof(HexColor), randomColorOrder);
-        var isStar = Random.Range(0, 100) > 90;
-        slot.Constructor(no);
+        slot.Constructor(no, img);
         img.Constructor(colorEnum, color);
     }
 

@@ -9,30 +9,27 @@ using Hexagon.Basics;
 
 public class Slot : CustomBehaviour
 {
-    public GameObject star;
-    public int No;
-    public HexColor HexColor;
+    public Img img;
+    public int no;
     public HexPosType hexPosType;
     public TextMeshProUGUI tm;
     public Slice[] slices = new Slice[6];
-
-    private bool IsStar;
+    public int[] Neighbors = new int[6];
     private V2[] selectedMap;
     private V2 gridSize;
-    public int[] Neighbors = new int[6];
-    private Dictionary<Slice, Slice> realSliceDict = new Dictionary<Slice, Slice>();
 
-    public void Constructor(int no)
+    public void Constructor(int _no, Img _img)
     {
-        No = no;
+        this.no = _no;
         gridSize = GameManager.GridManager.GetGridSize;
-        tm.text = no.ToString();
+        tm.text = _no.ToString();
+        img = _img;
         SetHexPosType();
     }
 
     private void SetHexPosType()
     {
-        hexPosType = Constants.GetHexPosType(No % gridSize.x, No / gridSize.x, gridSize);
+        hexPosType = Constants.GetHexPosType(no % gridSize.x, no / gridSize.x, gridSize);
         selectedMap = GameManager.GridManager.SliceMap[(int) hexPosType];
         SetNeighbors();
     }
@@ -46,7 +43,7 @@ public class Slot : CustomBehaviour
             if (value == 0) Neighbors[i] = -1;
             else
             {
-                Neighbors[i] = value + No;
+                Neighbors[i] = value + no;
             }
         }
     }
