@@ -380,6 +380,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Frame
       objectReference: {fileID: 0}
+    - target: {fileID: 3825334765468127167, guid: 7b392a61fd4fcab448446c1b3c33169b,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 6412248779666117738, guid: 7b392a61fd4fcab448446c1b3c33169b,
         type: 3}
       propertyPath: m_Name
@@ -398,6 +403,7 @@ GameObject:
   - component: {fileID: 376537174}
   - component: {fileID: 376537176}
   - component: {fileID: 376537175}
+  - component: {fileID: 376537177}
   m_Layer: 5
   m_Name: ImgBkg
   m_TagString: Untagged
@@ -461,6 +467,18 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 376537173}
   m_CullTransparentMesh: 0
+--- !u!225 &376537177
+CanvasGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 376537173}
+  m_Enabled: 1
+  m_Alpha: 0.5
+  m_Interactable: 1
+  m_BlocksRaycasts: 1
+  m_IgnoreParentGroups: 0
 --- !u!1 &384958316
 GameObject:
   m_ObjectHideFlags: 0
@@ -832,7 +850,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8c346d937266e614bb5079cec02aae8a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  KeyNo: 0
 --- !u!4 &596416634
 Transform:
   m_ObjectHideFlags: 0
@@ -1003,10 +1020,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   AllSlots: []
   AllImgs: []
-  Enviro: 
-  TripleNos: 000000000000000000000000
+  EnviroNos: 
+  TripleNos: 
   EnviroSlots: []
   TripleSlots: []
+  TripleImgs: []
+  KeyNo: 0
+  rotateType: 0
   gridSizeEnum: 0
   colorCountEnum: 6
   slotBkg: {fileID: 1698238224}
@@ -1958,8 +1978,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   outline: {fileID: 2100989961}
-  HexBkg: {fileID: 1698238224}
   SelectedSlice: {fileID: 0}
+  tripleImgs: []
 --- !u!1 &2100989961 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 6412248779666117738, guid: 7b392a61fd4fcab448446c1b3c33169b,
@@ -1972,3 +1992,15 @@ RectTransform:
     type: 3}
   m_PrefabInstance: {fileID: 344536083}
   m_PrefabAsset: {fileID: 0}
+--- !u!225 &2100989964
+CanvasGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2100989961}
+  m_Enabled: 1
+  m_Alpha: 0.5
+  m_Interactable: 1
+  m_BlocksRaycasts: 1
+  m_IgnoreParentGroups: 0

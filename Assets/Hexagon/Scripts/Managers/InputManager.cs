@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using DG.Tweening;
+using UnityEngine.SceneManagement;
 using static UnityEngine.Debug;
 
 
@@ -67,23 +68,22 @@ public class InputManager : CustomBehaviour
         outline.SetActive(false);
     }
 
-    private void ParentTripleToBkg()
+    private void UnparentTriple()
     {
         foreach (var img in tripleImgs)
         {
             img.SetParent(gridManager.imgBkg);
         }
-
-        tripleImgs.Clear();
     }
 
-    private void ParentTripleToOutline()
+    private void ParentTriple()
     {
+        tripleImgs.Clear();
         foreach (var no in GameManager.GridManager.TripleNos)
         {
             var img = gridManager.AllSlots[no].img;
             img.transform.SetParent(outline.transform);
-            tripleImgs.Add(GameManager.GridManager.AllImgs[no].transform);
+            tripleImgs.Add(img.transform);
         }
     }
 
@@ -110,17 +110,21 @@ public class InputManager : CustomBehaviour
             var objUnderMouse = GetCollider();
             if (objUnderMouse == null) return;
             SelectedSlice = objUnderMouse.GetMappedSlice();
-            GameManager.SelectHex();
-            ParentTripleToBkg();
+            UnparentTriple();
+            GameManager.SetTriple();
             outline.transform.position = SelectedSlice.transform.position;
             outline.transform.rotation = Quaternion.Euler(SelectedSlice.RotVector3);
             outline.transform.SetAsLastSibling();
-            ParentTripleToOutline();
+            ParentTriple();
         }
         else if (Input.GetKeyDown(KeyCode.Q) && !GameManager.IsRotating)
         {
             GameManager.GridManager.rotateType = RotateType.Cw;
             GameManager.StartRotation();
+        }
+        else if (Input.GetKeyDown(KeyCode.Space))
+        {
+            SceneManager.LoadScene(SceneManager.GetActiveScene().name);
         }
     }
 }

@@ -9,7 +9,8 @@ public class SelectionManager : CustomBehaviour
 {
     /****************************************************************************************/
     private GridManager gridManager;
-    public int KeyNo;
+
+    // public int KeyNo;
     private Slice slice;
 
     private void SetOutline()
@@ -23,8 +24,13 @@ public class SelectionManager : CustomBehaviour
         var hexMonoNoMod = slice.transform.parent.parent.GetComponent<Slot>().no % 2;
         var tripleKeys = hexMonoNoMod == 0 ? GameManager.Constants.tripleKeyEven : GameManager.Constants.tripleKeyOdd;
         var keyNo = tripleKeys[slice.no];
-        gridManager.TripleNos = Utilities.SortInt(new[] {tripleOneNo, tripleTwoNo, tripleThreeNo});
-        KeyNo = gridManager.AllSlots[gridManager.TripleNos[keyNo]].no;
+
+        gridManager.TripleNos.Clear();
+        gridManager.TripleNos.Add(tripleOneNo);
+        gridManager.TripleNos.Add(tripleTwoNo);
+        gridManager.TripleNos.Add(tripleThreeNo);
+        gridManager.TripleNos.Sort();
+        gridManager.KeyNo = gridManager.AllSlots[gridManager.TripleNos[keyNo]].no;
         SetEnviro();
     }
 
@@ -54,13 +60,10 @@ public class SelectionManager : CustomBehaviour
 
         foreach (var no in gridManager.TripleNos)
         {
+            gridManager.TripleImgs.Add(gridManager.AllSlots[no].img);
             var slot = gridManager.AllSlots[no];
             gridManager.TripleSlots.Add(slot);
-            var img = gridManager.AllImgs[no];
-            gridManager.TripleImgs.Add(img);
         }
-
-        // SetColor();
     }
 
     private bool IsExist(int coming)
@@ -90,12 +93,12 @@ public class SelectionManager : CustomBehaviour
     public override void Initialize(GameManager gameManager)
     {
         base.Initialize(gameManager);
-        GameManager.OnSelectHex += SetOutline;
+        GameManager.OnSetTriple += SetOutline;
         gridManager = GameManager.GridManager;
     }
 
     private void OnDestroy()
     {
-        GameManager.OnSelectHex -= SetOutline;
+        GameManager.OnSetTriple -= SetOutline;
     }
 }

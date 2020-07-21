@@ -10,7 +10,7 @@ public class HexOutline : CustomBehaviour
 
     private void ShowFrame()
     {
-        StartCoroutine(StartIe());
+        // StartCoroutine(StartIe());
 
         IEnumerator StartIe()
         {
@@ -22,11 +22,11 @@ public class HexOutline : CustomBehaviour
     public override void Initialize(GameManager gameManager)
     {
         base.Initialize(gameManager);
-        GameManager.OnSelectHex += ShowFrame;
+        GameManager.OnSetTriple += ShowFrame;
     }
 
     private void OnDestroy()
     {
-        GameManager.OnSelectHex -= ShowFrame;
+        GameManager.OnSetTriple -= ShowFrame;
     }
 }

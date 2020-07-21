@@ -35,4 +35,9 @@ public static class Utilities
     {
         return UnityEngine.Random.Range(0, 100) > 50;
     }
+
+    public static bool IsEven(this int no)
+    {
+        return no % 2 == 0;
+    }
 }

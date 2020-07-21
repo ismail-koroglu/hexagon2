@@ -9,10 +9,11 @@ public class GridManager : CustomBehaviour
     public List<Slot> AllSlots = new List<Slot>();
     public List<Img> AllImgs = new List<Img>();
     public List<int> EnviroNos = new List<int>();
-    public int[] TripleNos = new int[3];
+    public List<int> TripleNos = new List<int>();
     public List<Slot> EnviroSlots = new List<Slot>();
     public List<Slot> TripleSlots = new List<Slot>();
     public List<Img> TripleImgs = new List<Img>();
+    public int KeyNo;
 
     public RotateType rotateType;
     /****************************************************************************************/

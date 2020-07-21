@@ -23,7 +23,7 @@ public class GameManager : CustomBehaviour
     public event Action OnResetToMainMenu;
     public event Action OnLevelCompleted;
     public event Action OnLevelFailed;
-    public event Action OnSelectHex;
+    public event Action OnSetTriple;
     public event Action OnStartRotation;
     public event Action OnStopRotation;
     public event Action OnCheckMatching;
@@ -86,9 +86,9 @@ public class GameManager : CustomBehaviour
         OnLevelFailed?.Invoke();
     }
 
-    public void SelectHex()
+    public void SetTriple()
     {
-        OnSelectHex?.Invoke();
+        OnSetTriple?.Invoke();
     }
 
     public void StartRotation()

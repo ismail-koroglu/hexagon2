@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using static UnityEngine.Debug;
+using static UnityEngine.Debug;
 
 public class ImgManager : CustomBehaviour
 {
@@ -9,6 +10,11 @@ public class ImgManager : CustomBehaviour
 
     private void SetTripleImgsToSlots()
     {
+        // foreach (var slot in gridManager.TripleSlots)
+        // {
+        //     slot.img = null;
+        // }
+
         foreach (var slot in gridManager.TripleSlots)
         {
             foreach (var img in gridManager.TripleImgs)
@@ -19,9 +25,15 @@ public class ImgManager : CustomBehaviour
                 }
             }
         }
+
+        gridManager.TripleImgs.Clear();
+        foreach (var slot in gridManager.TripleSlots)
+        {
+            gridManager.TripleImgs.Add(slot.img);
+        }
     }
 
-    private bool IsClose(Component c0, Component c1)
+    private static bool IsClose(Component c0, Component c1)
     {
         return Vector3.Distance(c0.transform.position, c1.transform.position) < 10;
     }
