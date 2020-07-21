@@ -7,7 +7,7 @@ using static UnityEngine.Debug;
 using TMPro;
 using Hexagon.Basics;
 
-public class HexMono : CustomBehaviour
+public class Slot : CustomBehaviour
 {
     public GameObject star;
     public int No;

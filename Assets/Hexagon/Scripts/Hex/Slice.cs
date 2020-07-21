@@ -17,7 +17,7 @@ public class Slice : MonoBehaviour
 
     public Slice GetMappedSlice()
     {
-        return transform.parent.parent.GetComponent<HexMono>().GetMappedSlice(no);
+        return transform.parent.parent.GetComponent<Slot>().GetMappedSlice(no);
     }
 
     void Start()

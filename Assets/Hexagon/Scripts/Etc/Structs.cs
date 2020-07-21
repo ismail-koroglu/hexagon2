@@ -37,7 +37,6 @@
     }
 }
 
-
 public struct V3
 {
     public int a, b, c;
@@ -47,15 +46,5 @@ public struct V3
         a = _a;
         b = _b;
         c = _c;
-    }
-}
-
-public struct Slot
-{
-    public HexMono HexMono;
-
-    public Slot(HexMono _hexMono)
-    {
-        HexMono = _hexMono;
     }
 }

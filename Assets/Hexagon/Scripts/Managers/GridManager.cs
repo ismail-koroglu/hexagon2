@@ -6,16 +6,16 @@ using static UnityEngine.Debug;
 
 public class GridManager : CustomBehaviour
 {
-    public List<HexMono> AllHex;
+    public List<Slot> AllSlots;
     public List<int> Enviro=new List<int>();
     public int[] TripleNos = new int[3];
-    public List<HexMono> EnviroHex=new List<HexMono>();
-    public List<HexMono> TripleHex=new List<HexMono>();
+    public List<Slot> EnviroHex=new List<Slot>();
+    public List<Slot> TripleHex=new List<Slot>();
     /****************************************************************************************/
 
     public GridSize gridSizeEnum;
     public ColorCount colorCountEnum;
-    public Transform HexBkg;
+    public Transform SlotBkg;
     public V2 GetGridSize => gridSize;
     public GameObject hex, bomb;
     public List<V2[]> SliceMap;
@@ -63,7 +63,7 @@ public class GridManager : CustomBehaviour
             Constants.sliceHexSelectEven5
         };
         // Triangle = new Triangle();
-        AllHex = new List<HexMono>();
+        AllSlots = new List<Slot>();
         // Slots = new List<Slot>();
         // TripleHex =
         SetGridSize();
@@ -108,24 +108,24 @@ public class GridManager : CustomBehaviour
                 posY -= (y * hexDiff.y * 2) - firstHexPos.y;
                 var g = Instantiate(hex);
                 g.transform.position = new Vector3(posX, posY, 0);
-                g.transform.parent = HexBkg;
+                g.transform.parent = SlotBkg;
                 g.name = "Hex_" + order.ToString("00");
-                var hexMono = g.GetComponent<HexMono>();
+                var hexMono = g.GetComponent<Slot>();
                 hexMono.Initialize(GameManager);
-                AllHex.Add(hexMono);
-                SetHexConstructor(g.GetComponent<HexMono>(), order);
+                AllSlots.Add(hexMono);
+                SetHexConstructor(g.GetComponent<Slot>(), order);
                 // Slots.Add(new Slot(hexMono));
             }
         }
     }
 
-    private void SetHexConstructor(HexMono hexMono, int order)
+    private void SetHexConstructor(Slot slot, int order)
     {
         var randomColorOrder = Random.Range(0, (int) colorCountEnum);
         var color = Constants.colors[randomColorOrder];
         var colorEnum = (HexColor) Enum.ToObject(typeof(HexColor), randomColorOrder);
         var isStar = Random.Range(0, 100) > 90;
-        hexMono.Constructor(order, isStar, color, colorEnum);
+        slot.Constructor(order, isStar, color, colorEnum);
     }
 
     /****************************************************************************************/

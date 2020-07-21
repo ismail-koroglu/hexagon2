@@ -78,8 +78,8 @@ namespace Hexagon.Action
         {
             foreach (var item in GameManager.GridManager.TripleNos)
             {
-                GameManager.GridManager.AllHex[item].transform.SetParent(outline.transform);
-                ChildTripleHex.Add(GameManager.GridManager.AllHex[item].transform);
+                GameManager.GridManager.AllSlots[item].transform.SetParent(outline.transform);
+                ChildTripleHex.Add(GameManager.GridManager.AllSlots[item].transform);
             }
         }
 

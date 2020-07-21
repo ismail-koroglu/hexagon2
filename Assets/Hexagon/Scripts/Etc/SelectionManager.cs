@@ -15,16 +15,16 @@ public class SelectionManager : CustomBehaviour
     private void SetOutline()
     {
         slice = GameManager.InputManager.SelectedSlice;
-        var tripleOneNo = slice.transform.parent.parent.GetComponent<HexMono>().No;
+        var tripleOneNo = slice.transform.parent.parent.GetComponent<Slot>().No;
         var sliceHexSelect = (tripleOneNo % 2 == 1) ? gridManager.SliceHexMapOdd : gridManager.SliceHexMapEven;
         var twoCoords = sliceHexSelect[slice.no];
         var tripleTwoNo = tripleOneNo + gridManager.GetGridSize.x * twoCoords[0].y + twoCoords[0].x;
         var tripleThreeNo = tripleOneNo + gridManager.GetGridSize.x * twoCoords[1].y + twoCoords[1].x;
-        var hexMonoNoMod = slice.transform.parent.parent.GetComponent<HexMono>().No % 2;
+        var hexMonoNoMod = slice.transform.parent.parent.GetComponent<Slot>().No % 2;
         var tripleKeys = hexMonoNoMod == 0 ? GameManager.Constants.tripleKeyEven : GameManager.Constants.tripleKeyOdd;
         var keyNo = tripleKeys[slice.no];
         gridManager.TripleNos = Utilities.SortInt(new[] {tripleOneNo, tripleTwoNo, tripleThreeNo});
-        KeyNo = gridManager.AllHex[gridManager.TripleNos[keyNo]].No;
+        KeyNo = gridManager.AllSlots[gridManager.TripleNos[keyNo]].No;
         SetEnviro();
     }
 
@@ -35,7 +35,7 @@ public class SelectionManager : CustomBehaviour
         gridManager.TripleHex.Clear();
         for (var i = 0; i < 3; i++)
         {
-            var hexNeighbor = gridManager.AllHex[gridManager.TripleNos[i]].Neighbors;
+            var hexNeighbor = gridManager.AllSlots[gridManager.TripleNos[i]].Neighbors;
             foreach (var item in hexNeighbor)
             {
                 if (!IsExist(item) && !IsTriple(item) && item != -1)
@@ -48,12 +48,12 @@ public class SelectionManager : CustomBehaviour
         gridManager.Enviro.Sort();
         foreach (var item in gridManager.Enviro)
         {
-            gridManager.EnviroHex.Add(GameManager.GridManager.AllHex[item]);
+            gridManager.EnviroHex.Add(GameManager.GridManager.AllSlots[item]);
         }
 
         foreach (var item in gridManager.TripleNos)
         {
-            gridManager.TripleHex.Add(GameManager.GridManager.AllHex[item]);
+            gridManager.TripleHex.Add(GameManager.GridManager.AllSlots[item]);
         }
 
         // SetColor();
@@ -71,14 +71,14 @@ public class SelectionManager : CustomBehaviour
 
     private void SetColor()
     {
-        foreach (var item in gridManager.AllHex)
+        foreach (var item in gridManager.AllSlots)
         {
             item.Image.color = Color.gray;
         }
 
         foreach (var item in gridManager.Enviro)
         {
-            gridManager.AllHex[item].Image.color = Color.green;
+            gridManager.AllSlots[item].Image.color = Color.green;
         }
     }
 
