@@ -22,14 +22,9 @@ public class Slot : CustomBehaviour
     public int[] Neighbors = new int[6];
     private Dictionary<Slice, Slice> realSliceDict = new Dictionary<Slice, Slice>();
 
-    public void Constructor(int no, bool isStar, Color color, HexColor hexColor)
+    public void Constructor(int no)
     {
         No = no;
-        IsStar = isStar;
-        star.SetActive(IsStar);
-        HexColor = hexColor;
-        // GetComponent<Image>().color = color;
-        Image.color = color;
         gridSize = GameManager.GridManager.GetGridSize;
         tm.text = no.ToString();
         SetHexPosType();

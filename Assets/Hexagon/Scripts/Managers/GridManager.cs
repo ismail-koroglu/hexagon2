@@ -6,18 +6,21 @@ using static UnityEngine.Debug;
 
 public class GridManager : CustomBehaviour
 {
-    public List<Slot> AllSlots;
-    public List<int> Enviro=new List<int>();
+    public List<Slot> AllSlots = new List<Slot>();
+    public List<Img> AllImgs = new List<Img>();
+    public List<int> Enviro = new List<int>();
     public int[] TripleNos = new int[3];
-    public List<Slot> EnviroHex=new List<Slot>();
-    public List<Slot> TripleHex=new List<Slot>();
+    public List<Slot> EnviroHex = new List<Slot>();
+
+    public List<Slot> TripleHex = new List<Slot>();
+
     /****************************************************************************************/
 
     public GridSize gridSizeEnum;
     public ColorCount colorCountEnum;
-    public Transform SlotBkg;
+    public Transform slotBkg, imgBkg;
     public V2 GetGridSize => gridSize;
-    public GameObject hex, bomb;
+    public GameObject slot, bomb, img;
     public List<V2[]> SliceMap;
     public List<V2[]> SliceHexMapOdd;
     public List<V2[]> SliceHexMapEven;
@@ -63,7 +66,7 @@ public class GridManager : CustomBehaviour
             Constants.sliceHexSelectEven5
         };
         // Triangle = new Triangle();
-        AllSlots = new List<Slot>();
+
         // Slots = new List<Slot>();
         // TripleHex =
         SetGridSize();
@@ -106,26 +109,38 @@ public class GridManager : CustomBehaviour
                 var posX = firstHexPos.x + (hexDiff.x * x);
                 var posY = lowHighMod == 0 ? 0 : -hexDiff.y;
                 posY -= (y * hexDiff.y * 2) - firstHexPos.y;
-                var g = Instantiate(hex);
-                g.transform.position = new Vector3(posX, posY, 0);
-                g.transform.parent = SlotBkg;
-                g.name = "Hex_" + order.ToString("00");
-                var hexMono = g.GetComponent<Slot>();
-                hexMono.Initialize(GameManager);
-                AllSlots.Add(hexMono);
-                SetHexConstructor(g.GetComponent<Slot>(), order);
-                // Slots.Add(new Slot(hexMono));
+
+
+                var slotGo = Instantiate(slot);
+                slotGo.transform.position = new Vector3(posX, posY, 0);
+                slotGo.transform.parent = slotBkg;
+                slotGo.name = "Hex_" + order.ToString("00");
+                var slotCmp = slotGo.GetComponent<Slot>();
+                slotCmp.Initialize(GameManager);
+
+                var imgGo = Instantiate(img);
+                imgGo.transform.position = new Vector3(posX, posY, 0);
+                imgGo.transform.parent = imgBkg;
+                imgGo.name = "Hex_" + order.ToString("00");
+                var imgCmp = imgGo.GetComponent<Img>();
+                imgCmp.Initialize(GameManager);
+                AllImgs.Add(imgCmp);
+
+                AllSlots.Add(slotCmp);
+
+                SetHexConstructor(slotCmp, imgCmp, order);
             }
         }
     }
 
-    private void SetHexConstructor(Slot slot, int order)
+    private void SetHexConstructor(Slot slot, Img img, int no)
     {
         var randomColorOrder = Random.Range(0, (int) colorCountEnum);
         var color = Constants.colors[randomColorOrder];
         var colorEnum = (HexColor) Enum.ToObject(typeof(HexColor), randomColorOrder);
         var isStar = Random.Range(0, 100) > 90;
-        slot.Constructor(order, isStar, color, colorEnum);
+        slot.Constructor(no);
+        img.Constructor(colorEnum, color);
     }
 
     /****************************************************************************************/

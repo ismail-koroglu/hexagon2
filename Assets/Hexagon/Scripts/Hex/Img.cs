@@ -4,15 +4,11 @@ using UnityEngine;
 
 public class Img : CustomBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
+    public HexColor hexColor;
 
-    // Update is called once per frame
-    void Update()
+    public void Constructor(HexColor _hexColor, Color _color)
     {
-        
+        hexColor = _hexColor;
+        Image.color = _color;
     }
 }
