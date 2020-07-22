@@ -8,9 +8,9 @@ public class HexOutline : CustomBehaviour
 {
     public Image Frame;
 
-    private void ShowFrame()
+    private void SendFrameForward()
     {
-        // StartCoroutine(StartIe());
+        StartCoroutine(StartIe());
 
         IEnumerator StartIe()
         {
@@ -19,14 +19,28 @@ public class HexOutline : CustomBehaviour
         }
     }
 
+    private void ShowFrame()
+    {
+        Frame.gameObject.SetActive(true);
+    }
+
+    private void HideFrame()
+    {
+        Frame.gameObject.SetActive(false);
+    }
+
     public override void Initialize(GameManager gameManager)
     {
         base.Initialize(gameManager);
-        GameManager.OnSetTriple += ShowFrame;
+        GameManager.OnSetTriple += SendFrameForward;
+        GameManager.OnStartFalling += HideFrame;
+        GameManager.OnStopFalling += ShowFrame;
     }
 
     private void OnDestroy()
     {
-        GameManager.OnSetTriple -= ShowFrame;
+        GameManager.OnSetTriple -= SendFrameForward;
+        GameManager.OnStartFalling -= HideFrame;
+        GameManager.OnStopFalling -= ShowFrame;
     }
 }

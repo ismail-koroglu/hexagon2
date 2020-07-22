@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System.Collections;
+using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using static UnityEngine.Debug;
@@ -20,7 +21,6 @@ public class Calculator : CustomBehaviour
     {
         GameManager.ImgManager.SetTripleImgsToSlots();
         CalculateForTriple();
-        Log("___ :" + result);
         return result;
     }
 
@@ -50,23 +50,18 @@ public class Calculator : CustomBehaviour
 
         if (neighborSlots.Count == 6)
         {
-            FindForSix();
+            FindRelationsForSix();
         }
         else
         {
-            FindForLess();
+            FindRelationForLess();
         }
 
-        if (RelatedSlots.Count > 2)
-        {
-            result = true;
-        }
-
-        DestroyImgs();
-    }
+        AddRelatedImgs();
+    } 
 
     /****************************************************************************************/
-    private void FindForSix()
+    private void FindRelationsForSix()
     {
         foreach (var neighborSlot in neighborSlots)
         {
@@ -82,7 +77,7 @@ public class Calculator : CustomBehaviour
         }
     }
 
-    private void FindForLess()
+    private void FindRelationForLess()
     {
         for (var i = 0; i < neighborSlots.Count - 1; i++)
         {
@@ -105,7 +100,7 @@ public class Calculator : CustomBehaviour
         }
     }
 
-    private void DestroyImgs()
+    private void AddRelatedImgs()
     {
         foreach (var relation in relations)
         {
@@ -118,6 +113,25 @@ public class Calculator : CustomBehaviour
             RelatedSlots.Add(gridManager.AllSlots[centerNo]);
         }
 
+        if (relations.Count > 0)
+        {
+            result = true;
+            DestroyImgs();
+            GameManager.StartFalling();
+            StartCoroutine(StartIe());
+
+            IEnumerator StartIe()
+            {
+                yield return new WaitForSeconds(3);
+                GameManager.StopFalling();
+            }
+        }
+
+        // Log("___ :" + relations.Count);
+    }
+
+    private void DestroyImgs()
+    {
         foreach (var slot in RelatedSlots)
         {
             Destroy(slot.img.gameObject);

@@ -16,6 +16,7 @@ public class ImgManager : CustomBehaviour
         {
             foreach (var img in gridManager.TripleImgs)
             {
+                if (!img) return;
                 if (IsClose(slot, img))
                 {
                     slot.img = img;

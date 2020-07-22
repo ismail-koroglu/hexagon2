@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.iOS;
 
 public class GameManager : CustomBehaviour
 {
@@ -14,6 +15,7 @@ public class GameManager : CustomBehaviour
     public SelectionManager SelectionManager;
     public Calculator Calculator;
     public ImgManager ImgManager;
+    public FallingManager FallingManager;
 
     public event Action OnStartGame;
     public event Action OnCountdownFinished;
@@ -29,8 +31,11 @@ public class GameManager : CustomBehaviour
     public event Action OnCheckMatching;
     public event Action OnMatch;
     public event Action OnCalculate;
+    public event Action OnStartFalling;
+    public event Action OnStopFalling;
 
     public bool IsRotating;
+    public bool IsFalling;
 
     public void Awake()
     {
@@ -45,6 +50,7 @@ public class GameManager : CustomBehaviour
         SelectionManager.Initialize(this);
         Calculator.Initialize(this);
         ImgManager.Initialize(this);
+        FallingManager.Initialize(this);
     }
 
     public void StartGame()
@@ -117,5 +123,17 @@ public class GameManager : CustomBehaviour
     public void Calculate()
     {
         OnCalculate?.Invoke();
+    }
+
+    public void StartFalling()
+    {
+        IsFalling = true;
+        OnStartFalling?.Invoke();
+    }
+
+    public void StopFalling()
+    {
+        IsFalling = false;
+        OnStopFalling?.Invoke();
     }
 }

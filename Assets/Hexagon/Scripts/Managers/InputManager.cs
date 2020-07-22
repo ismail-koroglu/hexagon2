@@ -21,36 +21,37 @@ public class InputManager : CustomBehaviour
 
     private void RotateOutline()
     {
-        DOTween.Kill(outline.transform);
-        var rotationAmount = (int) GameManager.GridManager.rotateType * 120;
-        outline.transform.DOLocalRotate(new Vector3(0, 0, rotationAmount), rotateDuration, RotateMode.LocalAxisAdd).OnComplete(() =>
+        StartCoroutine(StartIe0());
+        StartCoroutine(StartIe());
+
+        IEnumerator StartIe()
         {
-            if (!GameManager.Calculator.IsMatching())
-            {
-                outline.transform.DOLocalRotate(new Vector3(0, 0, rotationAmount), rotateDuration, RotateMode.LocalAxisAdd).OnComplete(() =>
-                {
-                    if (!GameManager.Calculator.IsMatching())
-                    {
-                        outline.transform.DOLocalRotate(new Vector3(0, 0, rotationAmount), rotateDuration, RotateMode.LocalAxisAdd).OnComplete(() =>
-                        {
-                            GameManager.Calculator.IsMatching();
-                            GameManager.StopRotation();
-                        });
-                    }
-                    else
-                    {
-                        GameManager.StopRotation();
-                    }
-                });
-                // GameManager.StopRotation();
-            }
-            else
-            {
-                GameManager.StopRotation();
-            }
-        });
+            yield return new WaitForSeconds(1);
+            GameManager.StopRotation();
+        }
     }
 
+    IEnumerator StartIe0()
+    {
+        yield return tween().WaitForCompletion();
+
+        if (!GameManager.Calculator.IsMatching())
+        {
+            yield return tween().WaitForCompletion();
+
+            if (!GameManager.Calculator.IsMatching())
+            {
+                yield return tween().WaitForCompletion();
+                GameManager.Calculator.IsMatching();
+            }
+        }
+    }
+
+    private Tween tween()
+    {
+        var rotationAmount = (int) GameManager.GridManager.rotateType * 120;
+        return outline.transform.DOLocalRotate(new Vector3(0, 0, rotationAmount), rotateDuration, RotateMode.LocalAxisAdd);
+    }
 
     /****************************************************************************************/
     private Slice GetCollider()
@@ -65,11 +66,6 @@ public class InputManager : CustomBehaviour
         var worldPoint = Camera.main.ScreenToWorldPoint(Input.mousePosition);
         var hit = Physics2D.Raycast(worldPoint, Vector2.zero);
         return hit ? hit.collider.gameObject : null;
-    }
-
-    private void HideOutline()
-    {
-        outline.SetActive(false);
     }
 
     private void UnparentTriple()
@@ -104,20 +100,20 @@ public class InputManager : CustomBehaviour
         gridManager = GameManager.GridManager;
         outline.GetComponent<HexOutline>().Initialize(GameManager);
         GameManager.OnStartRotation += RotateOutline;
-        GameManager.OnMatch += HideOutline;
         GameManager.OnStopRotation += StopRotation;
     }
 
     private void OnDestroy()
     {
         GameManager.OnStartRotation -= RotateOutline;
-        GameManager.OnMatch -= HideOutline;
         GameManager.OnStopRotation -= StopRotation;
     }
 
     private void Update()
     {
-        if (Input.GetMouseButtonDown(0) && !GameManager.IsRotating)
+        if (GameManager.IsRotating || GameManager.IsFalling) return;
+
+        if (Input.GetMouseButtonDown(0))
         {
             var objUnderMouse = GetCollider();
             if (objUnderMouse == null) return;
@@ -129,18 +125,17 @@ public class InputManager : CustomBehaviour
             outline.transform.SetAsLastSibling();
             ParentTriple();
         }
-        else if (Input.GetKeyDown(KeyCode.Q) && !GameManager.IsRotating)
-        {
-            GameManager.GridManager.rotateType = RotateType.Cw;
-            GameManager.StartRotation();
-        }
-
-        else if (Input.GetKeyDown(KeyCode.W) && !GameManager.IsRotating)
+        else if (Input.GetKeyDown(KeyCode.Q))
         {
             GameManager.GridManager.rotateType = RotateType.Ccw;
             GameManager.StartRotation();
         }
 
+        else if (Input.GetKeyDown(KeyCode.W))
+        {
+            GameManager.GridManager.rotateType = RotateType.Cw;
+            GameManager.StartRotation();
+        }
 
         else if (Input.GetKeyDown(KeyCode.Space))
         {
