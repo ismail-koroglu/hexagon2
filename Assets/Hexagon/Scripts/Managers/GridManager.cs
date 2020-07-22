@@ -33,7 +33,7 @@ public class GridManager : CustomBehaviour
     private Constants Constants;
     private V2 gridSize;
 
-    private int startPoint;
+    public int startPoint;
 
     /****************************************************************************************/
     private void Start()
@@ -71,11 +71,6 @@ public class GridManager : CustomBehaviour
             Constants.sliceHexSelectEven4,
             Constants.sliceHexSelectEven5
         };
-        // Triangle = new Triangle();
-
-        // Slots = new List<Slot>();
-        // TripleHex =
-        startPoint = Random.Range(0, 20);
         SetGridSize();
         GenerateHex();
     }
@@ -122,10 +117,10 @@ public class GridManager : CustomBehaviour
                 slotGo.transform.parent = slotBkg;
                 slotGo.name = "Slot_" + order.ToString("00");
                 var slotCmp = slotGo.GetComponent<Slot>();
-                slotCmp.Initialize(GameManager);
-
                 AllSlots.Add(slotCmp);
-                SetSlotConstructor(slotCmp, order);
+                slotCmp.no = order;
+                slotCmp.Initialize(GameManager);
+                slotCmp.img = GenerateImg(slotCmp);
             }
         }
     }
@@ -133,24 +128,15 @@ public class GridManager : CustomBehaviour
     public Img GenerateImg(Slot slot)
     {
         // var randomColorOrder = Constants.HexColorMap[startPoint + no];
-        var randomColorOrder = Random.Range(0, (int) colorCountEnum);
-        var colorEnum = (HexColor) Enum.ToObject(typeof(HexColor), randomColorOrder);
         var imgGo = Instantiate(img);
         var pos = slot.transform.position;
         imgGo.transform.position = new Vector3(pos.x, pos.y, 0);
         imgGo.transform.parent = imgBkg;
         imgGo.name = "Img_" + slot.no.ToString("00");
         var imgCmp = imgGo.GetComponent<Img>();
-        imgCmp.Initialize(GameManager);
         AllImgs.Add(imgCmp);
-        imgCmp.Constructor(colorEnum, GameManager);
+        imgCmp.Initialize(GameManager);
         return imgCmp;
-    }
-
-
-    private void SetSlotConstructor(Slot slot, int no)
-    {
-        slot.Constructor(no, GenerateImg(slot));
     }
 
     /****************************************************************************************/
@@ -158,6 +144,7 @@ public class GridManager : CustomBehaviour
     public override void Initialize(GameManager gameManager)
     {
         base.Initialize(gameManager);
+        startPoint = Random.Range(0, 20);
         Constants = GameManager.Constants;
     }
 }

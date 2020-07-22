@@ -1,4 +1,5 @@
-﻿using TMPro;
+﻿using System.Linq;
+using TMPro;
 
 public class Slot : CustomBehaviour
 {
@@ -10,15 +11,6 @@ public class Slot : CustomBehaviour
     public int[] Neighbors = new int[6];
     private V2[] selectedMap;
     private V2 gridSize;
-
-    public void Constructor(int _no, Img _img)
-    {
-        no = _no;
-        gridSize = GameManager.GridManager.GetGridSize;
-        tm.text = _no.ToString();
-        img = _img;
-        SetHexPosType();
-    }
 
     private void SetHexPosType()
     {
@@ -52,5 +44,14 @@ public class Slot : CustomBehaviour
         }
 
         return null;
+    }
+
+    /****************************************************************************************/
+    public override void Initialize(GameManager gameManager)
+    {
+        base.Initialize(gameManager);
+        gridSize = GameManager.GridManager.GetGridSize;
+        tm.text = no.ToString();
+        SetHexPosType();
     }
 }
