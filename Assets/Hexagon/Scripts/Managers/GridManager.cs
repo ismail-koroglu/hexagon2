@@ -13,6 +13,8 @@ public class GridManager : CustomBehaviour
     public List<Slot> EnviroSlots = new List<Slot>();
     public List<Slot> TripleSlots = new List<Slot>();
     public List<Img> TripleImgs = new List<Img>();
+    public List<Slot> BigTriangleSlots = new List<Slot>();
+    public Slot KeySlot;
     public int KeyNo;
 
     public RotateType rotateType;

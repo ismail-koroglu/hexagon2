@@ -31,6 +31,7 @@ public class SelectionManager : CustomBehaviour
         gridManager.TripleNos.Add(tripleThreeNo);
         gridManager.TripleNos.Sort();
         gridManager.KeyNo = gridManager.AllSlots[gridManager.TripleNos[keyNo]].no;
+        gridManager.KeySlot = gridManager.AllSlots[keyNo];
         SetEnviro();
     }
 
@@ -40,6 +41,7 @@ public class SelectionManager : CustomBehaviour
         gridManager.EnviroSlots.Clear();
         gridManager.TripleSlots.Clear();
         gridManager.TripleImgs.Clear();
+        gridManager.BigTriangleSlots.Clear();
         for (var i = 0; i < 3; i++)
         {
             var hexNeighbor = gridManager.AllSlots[gridManager.TripleNos[i]].Neighbors;
@@ -51,11 +53,12 @@ public class SelectionManager : CustomBehaviour
                 }
             }
         }
-
         gridManager.EnviroNos.Sort();
-        foreach (var item in gridManager.EnviroNos)
+        foreach (var no in gridManager.EnviroNos)
         {
-            gridManager.EnviroSlots.Add(GameManager.GridManager.AllSlots[item]);
+            var slot = GameManager.GridManager.AllSlots[no];
+            gridManager.EnviroSlots.Add(slot);
+            gridManager.BigTriangleSlots.Add(slot);
         }
 
         foreach (var no in gridManager.TripleNos)
@@ -63,6 +66,7 @@ public class SelectionManager : CustomBehaviour
             gridManager.TripleImgs.Add(gridManager.AllSlots[no].img);
             var slot = gridManager.AllSlots[no];
             gridManager.TripleSlots.Add(slot);
+            gridManager.BigTriangleSlots.Add(slot);
         }
     }
 

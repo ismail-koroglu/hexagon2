@@ -8,13 +8,10 @@ public class ImgManager : CustomBehaviour
 {
     private GridManager gridManager;
 
-    private void SetTripleImgsToSlots()
-    {
-        // foreach (var slot in gridManager.TripleSlots)
-        // {
-        //     slot.img = null;
-        // }
+    /****************************************************************************************/
 
+    public void SetTripleImgsToSlots()
+    {
         foreach (var slot in gridManager.TripleSlots)
         {
             foreach (var img in gridManager.TripleImgs)
@@ -33,6 +30,7 @@ public class ImgManager : CustomBehaviour
         }
     }
 
+    /****************************************************************************************/
     private static bool IsClose(Component c0, Component c1)
     {
         return Vector3.Distance(c0.transform.position, c1.transform.position) < 10;
@@ -43,11 +41,11 @@ public class ImgManager : CustomBehaviour
     {
         base.Initialize(gameManager);
         gridManager = GameManager.GridManager;
-        GameManager.OnStopRotation += SetTripleImgsToSlots;
+        // GameManager.OnStopRotation += SetTripleImgsToSlots;
     }
 
     private void OnDestroy()
     {
-        GameManager.OnStopRotation -= SetTripleImgsToSlots;
+        // GameManager.OnStopRotation -= SetTripleImgsToSlots;
     }
 }

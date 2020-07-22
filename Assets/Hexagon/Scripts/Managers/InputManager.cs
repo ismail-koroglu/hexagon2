@@ -22,24 +22,27 @@ public class InputManager : CustomBehaviour
     private void RotateOutline()
     {
         DOTween.Kill(outline.transform);
-        var rotateType = (int) GameManager.GridManager.rotateType;
-        outline.transform.DOLocalRotate(new Vector3(0, 0, rotateType * 120), rotateDuration, RotateMode.LocalAxisAdd).OnComplete(() =>
+        var rotationAmount = (int) GameManager.GridManager.rotateType * 120;
+        outline.transform.DOLocalRotate(new Vector3(0, 0, rotationAmount), rotateDuration, RotateMode.LocalAxisAdd).OnComplete(() =>
         {
             if (!GameManager.Calculator.IsMatching())
             {
-                // outline.transform.DOLocalRotate(new Vector3(0, 0, 120), rotTime, RotateMode.LocalAxisAdd).OnComplete(() =>
-                // {
-                //     if (!GameManager.Calculator.IsMatching())
-                //     {
-                //         outline.transform.DOLocalRotate(new Vector3(0, 0, 120), rotTime, RotateMode.LocalAxisAdd).OnComplete(() =>
-                //             GameManager.StopRotation());
-                //     }
-                //     else
-                //     {
-                //         GameManager.StopRotation();
-                //     }
-                // });
-                GameManager.StopRotation();
+                outline.transform.DOLocalRotate(new Vector3(0, 0, rotationAmount), rotateDuration, RotateMode.LocalAxisAdd).OnComplete(() =>
+                {
+                    if (!GameManager.Calculator.IsMatching())
+                    {
+                        outline.transform.DOLocalRotate(new Vector3(0, 0, rotationAmount), rotateDuration, RotateMode.LocalAxisAdd).OnComplete(() =>
+                        {
+                            GameManager.Calculator.IsMatching();
+                            GameManager.StopRotation();
+                        });
+                    }
+                    else
+                    {
+                        GameManager.StopRotation();
+                    }
+                });
+                // GameManager.StopRotation();
             }
             else
             {
@@ -47,6 +50,7 @@ public class InputManager : CustomBehaviour
             }
         });
     }
+
 
     /****************************************************************************************/
     private Slice GetCollider()
@@ -82,9 +86,15 @@ public class InputManager : CustomBehaviour
         foreach (var no in GameManager.GridManager.TripleNos)
         {
             var img = gridManager.AllSlots[no].img;
+            if (!img) return;
             img.transform.SetParent(outline.transform);
             tripleImgs.Add(img.transform);
         }
+    }
+
+    private void StopRotation()
+    {
+        DOTween.Kill(outline.transform);
     }
 
     /****************************************************************************************/
@@ -95,12 +105,14 @@ public class InputManager : CustomBehaviour
         outline.GetComponent<HexOutline>().Initialize(GameManager);
         GameManager.OnStartRotation += RotateOutline;
         GameManager.OnMatch += HideOutline;
+        GameManager.OnStopRotation += StopRotation;
     }
 
     private void OnDestroy()
     {
         GameManager.OnStartRotation -= RotateOutline;
         GameManager.OnMatch -= HideOutline;
+        GameManager.OnStopRotation -= StopRotation;
     }
 
     private void Update()

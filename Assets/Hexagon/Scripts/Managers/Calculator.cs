@@ -6,56 +6,92 @@ using static UnityEngine.Debug;
 public class Calculator : CustomBehaviour
 {
     private GridManager gridManager;
-
-    public bool IsMatching()
-    {
-        return false;
-    }
+    private bool result;
 
     public List<Slot> neighborSlots = new List<Slot>();
     public List<Slot> sameNeighbor = new List<Slot>();
     public List<Relation> relations = new List<Relation>();
     public List<Slot> OnePlusSlots = new List<Slot>();
+    public List<Slot> RelatedSlots = new List<Slot>();
     private HexColor keyColor;
+    private int centerNo = 0;
 
-    private void Calculate()
+    public bool IsMatching()
+    {
+        GameManager.ImgManager.SetTripleImgsToSlots();
+        CalculateForTriple();
+        Log("___ :" + result);
+        return result;
+    }
+
+    private void CalculateForTriple()
+    {
+        result = false;
+        foreach (var no in gridManager.TripleNos)
+        {
+            CalculateMain(no);
+        }
+    }
+
+    private void CalculateMain(int _centerNo)
     {
         var sameColorCounter = 0;
         var neighborCounter = 0;
-        var key = gridManager.KeyNo;
-        var neighbors = gridManager.AllSlots[key].Neighbors;
-        keyColor = gridManager.AllSlots[key].img.hexColor;
+        centerNo = _centerNo;
+        var neighbors = gridManager.AllSlots[centerNo].Neighbors;
+        keyColor = gridManager.AllSlots[centerNo].img.hexColor;
         var neighborCount = 0;
         sameNeighbor.Clear();
         neighborSlots.Clear();
         relations.Clear();
         OnePlusSlots.Clear();
-
+        RelatedSlots.Clear();
         neighborSlots.AddRange(from no in neighbors where no != -1 select gridManager.AllSlots[no]);
+
         if (neighborSlots.Count == 6)
         {
-            foreach (var neighborSlot in neighborSlots)
-            {
-                OnePlusSlots.Add(neighborSlot);
-            }
-
-            OnePlusSlots.Add(neighborSlots[0]);
-
-
-            for (var i = 0; i < OnePlusSlots.Count; i++)
-            {
-                if (i < OnePlusSlots.Count - 1)
-                {
-                    var s0 = OnePlusSlots[i];
-                    var s1 = OnePlusSlots[i + 1];
-                    CreateRelation(OnePlusSlots[i], OnePlusSlots[i + 1]);
-                }
-            }
+            FindForSix();
+        }
+        else
+        {
+            FindForLess();
         }
 
-        Log("___ :" + relations.Count);
+        if (RelatedSlots.Count > 2)
+        {
+            result = true;
+        }
+
+        DestroyImgs();
     }
 
+    /****************************************************************************************/
+    private void FindForSix()
+    {
+        foreach (var neighborSlot in neighborSlots)
+        {
+            OnePlusSlots.Add(neighborSlot);
+        }
+
+        OnePlusSlots.Add(neighborSlots[0]);
+        for (var i = 0; i < OnePlusSlots.Count - 1; i++)
+        {
+            var s0 = OnePlusSlots[i];
+            var s1 = OnePlusSlots[i + 1];
+            CreateRelation(OnePlusSlots[i], OnePlusSlots[i + 1]);
+        }
+    }
+
+    private void FindForLess()
+    {
+        for (var i = 0; i < neighborSlots.Count - 1; i++)
+        {
+            var s0 = neighborSlots[i];
+            var s1 = neighborSlots[i + 1];
+            CreateRelation(neighborSlots[i], neighborSlots[i + 1]);
+        }
+    }
+    /****************************************************************************************/
 
     private void CreateRelation(Slot s0, Slot s1)
     {
@@ -69,6 +105,24 @@ public class Calculator : CustomBehaviour
         }
     }
 
+    private void DestroyImgs()
+    {
+        foreach (var relation in relations)
+        {
+            if (!RelatedSlots.IsContaining(relation.slot0)) RelatedSlots.Add(relation.slot0);
+            if (!RelatedSlots.IsContaining(relation.slot1)) RelatedSlots.Add(relation.slot1);
+        }
+
+        if (RelatedSlots.Count > 1)
+        {
+            RelatedSlots.Add(gridManager.AllSlots[centerNo]);
+        }
+
+        foreach (var slot in RelatedSlots)
+        {
+            Destroy(slot.img.gameObject);
+        }
+    }
     /****************************************************************************************/
 
     public override void Initialize(GameManager gameManager)
@@ -76,12 +130,12 @@ public class Calculator : CustomBehaviour
         base.Initialize(gameManager);
         gridManager = GameManager.GridManager;
         // GameManager.OnCheckMatching += CheckMatching;
-        GameManager.OnCalculate += Calculate;
+        // GameManager.OnCalculate += CalculateForTriple;
     }
 
     private void OnDestroy()
     {
         // GameManager.OnCheckMatching -= CheckMatching;
-        GameManager.OnCalculate -= Calculate;
+        // GameManager.OnCalculate -= CalculateForTriple;
     }
 }

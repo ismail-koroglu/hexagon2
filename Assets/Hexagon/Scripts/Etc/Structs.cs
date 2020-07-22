@@ -51,14 +51,14 @@ public struct V3
 
 public class Relation
 {
-    public Slot neighbor0;
-    public Slot neighbor1;
+    public Slot slot0;
+    public Slot slot1;
     private HexColor hexColor;
 
     public Relation(Slot _s0, Slot _s1, HexColor _hexColor)
     {
-        neighbor0 = _s0;
-        neighbor1 = _s1;
+        slot0 = _s0;
+        slot1 = _s1;
         hexColor = _hexColor;
     }
 }

@@ -100,8 +100,8 @@ public class GameManager : CustomBehaviour
 
     public void StopRotation()
     {
-        OnStopRotation?.Invoke();
         IsRotating = false;
+        OnStopRotation?.Invoke();
     }
 
     public void CheckMatching()
