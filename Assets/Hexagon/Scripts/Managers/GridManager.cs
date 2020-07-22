@@ -140,7 +140,8 @@ public class GridManager : CustomBehaviour
 
     private void SetHexConstructor(Slot slot, Img img, int no)
     {
-        var randomColorOrder = Constants.HexColorMap[startPoint + no];
+        // var randomColorOrder = Constants.HexColorMap[startPoint + no];
+        var randomColorOrder = Random.Range(0, (int) colorCountEnum);
         var color = Constants.colors[randomColorOrder];
         var colorEnum = (HexColor) Enum.ToObject(typeof(HexColor), randomColorOrder);
         slot.Constructor(no, img);

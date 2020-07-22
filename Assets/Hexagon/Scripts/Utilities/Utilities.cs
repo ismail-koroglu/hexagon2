@@ -40,4 +40,41 @@ public static class Utilities
     {
         return no % 2 == 0;
     }
+
+    public static bool IsNeighbor(Slot s0, Slot s1)
+    {
+        var result = false;
+        foreach (var neighbor in s0.Neighbors)
+        {
+            if (neighbor == s1.no) result = true;
+        }
+
+        return result;
+    }
+
+    public static bool IsContaining(this IEnumerable<Slot> list, Slot coming)
+    {
+        foreach (var item in list)
+        {
+            if (item == coming)
+            {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    public static bool IsContaining<T>(this IEnumerable<T> list, T coming) where T : class
+    {
+        foreach (var item in list)
+        {
+            if (item == coming)
+            {
+                return true;
+            }
+        }
+
+        return false;
+    }
 }

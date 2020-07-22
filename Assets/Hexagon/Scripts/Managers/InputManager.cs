@@ -72,7 +72,7 @@ public class InputManager : CustomBehaviour
     {
         foreach (var img in tripleImgs)
         {
-            img.SetParent(gridManager.imgBkg);
+            if (img) img.SetParent(gridManager.imgBkg);
         }
     }
 
@@ -122,9 +122,22 @@ public class InputManager : CustomBehaviour
             GameManager.GridManager.rotateType = RotateType.Cw;
             GameManager.StartRotation();
         }
+
+        else if (Input.GetKeyDown(KeyCode.W) && !GameManager.IsRotating)
+        {
+            GameManager.GridManager.rotateType = RotateType.Ccw;
+            GameManager.StartRotation();
+        }
+
+
         else if (Input.GetKeyDown(KeyCode.Space))
         {
             SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+        }
+
+        else if (Input.GetKeyDown(KeyCode.E))
+        {
+            GameManager.Calculate();
         }
     }
 }

@@ -48,3 +48,17 @@ public struct V3
         c = _c;
     }
 }
+
+public class Relation
+{
+    public Slot neighbor0;
+    public Slot neighbor1;
+    private HexColor hexColor;
+
+    public Relation(Slot _s0, Slot _s1, HexColor _hexColor)
+    {
+        neighbor0 = _s0;
+        neighbor1 = _s1;
+        hexColor = _hexColor;
+    }
+}

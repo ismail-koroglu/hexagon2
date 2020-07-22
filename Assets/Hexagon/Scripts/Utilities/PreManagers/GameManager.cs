@@ -28,6 +28,7 @@ public class GameManager : CustomBehaviour
     public event Action OnStopRotation;
     public event Action OnCheckMatching;
     public event Action OnMatch;
+    public event Action OnCalculate;
 
     public bool IsRotating;
 
@@ -111,5 +112,10 @@ public class GameManager : CustomBehaviour
     public void Match()
     {
         OnMatch?.Invoke();
+    }
+
+    public void Calculate()
+    {
+        OnCalculate?.Invoke();
     }
 }
