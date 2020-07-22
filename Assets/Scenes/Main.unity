@@ -162,7 +162,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1846773557}
-  m_RootOrder: 3
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &246496884
 GameObject:
@@ -508,7 +508,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1846773557}
-  m_RootOrder: 7
+  m_RootOrder: 8
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &384958318
 MonoBehaviour:
@@ -862,7 +862,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1846773557}
-  m_RootOrder: 6
+  m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &604167967
 GameObject:
@@ -999,7 +999,7 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1846773557}
-  m_RootOrder: 2
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -1025,6 +1025,8 @@ MonoBehaviour:
   EnviroSlots: []
   TripleSlots: []
   TripleImgs: []
+  BigTriangleSlots: []
+  KeySlot: {fileID: 0}
   KeyNo: 0
   rotateType: 0
   gridSizeEnum: 0
@@ -1100,6 +1102,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3749ef805ef6e7842b72499c7c543473, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  neighborSlots: []
+  sameNeighbor: []
+  OnePlusSlots: []
+  RelatedSlots: []
 --- !u!4 &698469460
 Transform:
   m_ObjectHideFlags: 0
@@ -1397,6 +1403,49 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 892573285}
   m_CullTransparentMesh: 0
+--- !u!1 &944475451
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 944475453}
+  - component: {fileID: 944475452}
+  m_Layer: 0
+  m_Name: FallingManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &944475452
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 944475451}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 68db6649d48b43d4cb1d4a02d0f098f5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!4 &944475453
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 944475451}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: -14.597055, y: 26.67434, z: -225}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 1846773557}
+  m_RootOrder: 2
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1553557523
 GameObject:
   m_ObjectHideFlags: 0
@@ -1459,7 +1508,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1846773557}
-  m_RootOrder: 8
+  m_RootOrder: 9
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1656686598
 MonoBehaviour:
@@ -1690,6 +1739,7 @@ RectTransform:
   m_Children:
   - {fileID: 698469460}
   - {fileID: 1839388293}
+  - {fileID: 944475453}
   - {fileID: 695894940}
   - {fileID: 214315786}
   - {fileID: 1999290782}
@@ -1726,7 +1776,9 @@ MonoBehaviour:
   SelectionManager: {fileID: 596416633}
   Calculator: {fileID: 698469459}
   ImgManager: {fileID: 214315785}
+  FallingManager: {fileID: 944475452}
   IsRotating: 0
+  IsFalling: 0
 --- !u!114 &1846773559
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1932,7 +1984,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1846773557}
-  m_RootOrder: 4
+  m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &2052219476
 GameObject:
@@ -1963,7 +2015,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1846773557}
-  m_RootOrder: 5
+  m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &2052219478
 MonoBehaviour:

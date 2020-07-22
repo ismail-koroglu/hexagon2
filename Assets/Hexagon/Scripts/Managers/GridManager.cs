@@ -138,6 +138,12 @@ public class GridManager : CustomBehaviour
         }
     }
 
+    private void GenerateImg(Slot slot)
+    {
+        
+    }
+
+
     private int startPoint;
 
     private void SetHexConstructor(Slot slot, Img img, int no)
