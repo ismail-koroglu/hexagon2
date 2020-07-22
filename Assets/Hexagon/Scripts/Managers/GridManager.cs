@@ -33,6 +33,8 @@ public class GridManager : CustomBehaviour
     private Constants Constants;
     private V2 gridSize;
 
+    private int startPoint;
+
     /****************************************************************************************/
     private void Start()
     {
@@ -115,7 +117,6 @@ public class GridManager : CustomBehaviour
                 var posY = lowHighMod == 0 ? 0 : -hexDiff.y;
                 posY -= (y * hexDiff.y * 2) - firstHexPos.y;
 
-
                 var slotGo = Instantiate(slot);
                 slotGo.transform.position = new Vector3(posX, posY, 0);
                 slotGo.transform.parent = slotBkg;
@@ -123,37 +124,33 @@ public class GridManager : CustomBehaviour
                 var slotCmp = slotGo.GetComponent<Slot>();
                 slotCmp.Initialize(GameManager);
 
-                var imgGo = Instantiate(img);
-                imgGo.transform.position = new Vector3(posX, posY, 0);
-                imgGo.transform.parent = imgBkg;
-                imgGo.name = "Img_" + order.ToString("00");
-                var imgCmp = imgGo.GetComponent<Img>();
-                imgCmp.Initialize(GameManager);
-                AllImgs.Add(imgCmp);
-
                 AllSlots.Add(slotCmp);
-
-                SetHexConstructor(slotCmp, imgCmp, order);
+                SetSlotConstructor(slotCmp, order);
             }
         }
     }
 
-    private void GenerateImg(Slot slot)
-    {
-        
-    }
-
-
-    private int startPoint;
-
-    private void SetHexConstructor(Slot slot, Img img, int no)
+    public Img GenerateImg(Slot slot)
     {
         // var randomColorOrder = Constants.HexColorMap[startPoint + no];
         var randomColorOrder = Random.Range(0, (int) colorCountEnum);
-        var color = Constants.colors[randomColorOrder];
         var colorEnum = (HexColor) Enum.ToObject(typeof(HexColor), randomColorOrder);
-        slot.Constructor(no, img);
-        img.Constructor(colorEnum, color);
+        var imgGo = Instantiate(img);
+        var pos = slot.transform.position;
+        imgGo.transform.position = new Vector3(pos.x, pos.y, 0);
+        imgGo.transform.parent = imgBkg;
+        imgGo.name = "Img_" + slot.no.ToString("00");
+        var imgCmp = imgGo.GetComponent<Img>();
+        imgCmp.Initialize(GameManager);
+        AllImgs.Add(imgCmp);
+        imgCmp.Constructor(colorEnum, GameManager);
+        return imgCmp;
+    }
+
+
+    private void SetSlotConstructor(Slot slot, int no)
+    {
+        slot.Constructor(no, GenerateImg(slot));
     }
 
     /****************************************************************************************/

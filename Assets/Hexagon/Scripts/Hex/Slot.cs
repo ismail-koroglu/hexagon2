@@ -1,11 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using System.Linq;
-using UnityEngine;
-using UnityEngine.UI;
-using static UnityEngine.Debug;
-using TMPro;
-using Hexagon.Basics;
+﻿using TMPro;
 
 public class Slot : CustomBehaviour
 {
@@ -20,7 +13,7 @@ public class Slot : CustomBehaviour
 
     public void Constructor(int _no, Img _img)
     {
-        this.no = _no;
+        no = _no;
         gridSize = GameManager.GridManager.GetGridSize;
         tm.text = _no.ToString();
         img = _img;

@@ -7,9 +7,10 @@ public class Img : CustomBehaviour
 {
     public HexColor hexColor;
 
-    public void Constructor(HexColor _hexColor, Color _color)
+    public void Constructor(HexColor _hexColor, GameManager gameManager)
     {
+        Initialize(gameManager);
         hexColor = _hexColor;
-        Image.color = _color;
+        Image.color = gameManager.Constants.colors[(int) _hexColor];
     }
 }
