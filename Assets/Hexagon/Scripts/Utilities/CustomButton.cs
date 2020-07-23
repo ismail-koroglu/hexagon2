@@ -7,9 +7,7 @@ using UnityEngine.UI;
 
 public class CustomButton : Button
 {
-
-    [SerializeField]
-    public Image TEST;
+    [SerializeField] public Image TEST;
 
     #region Fields
 
@@ -91,10 +89,10 @@ public class CustomButton : Button
 
     #region Methods
 
-    public virtual void Initialize(UIManager uiManager, Action onClick, bool active = true)
+    public virtual void Initialize(Action onClick, bool active = true)
     {
         gameObject.SetActive(active);
-        UIManager = uiManager;
+        // UIManager = uiManager;
         mOnClick = onClick;
 
         mStartScale = transform.localScale;
@@ -204,12 +202,12 @@ public class CustomButton : Button
 
         base.OnPointerUp(eventData);
 
-        if(!DontPlayAnimation && UIManager != null)
+        if (!DontPlayAnimation && UIManager != null)
         {
             transform.localScale = mStartScale;
         }
 
-        if(mOnPointerUp != null)
+        if (mOnPointerUp != null)
         {
             mOnPointerUp(eventData);
         }

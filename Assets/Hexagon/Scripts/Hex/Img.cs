@@ -16,10 +16,9 @@ public class Img : CustomBehaviour
         SetColor();
     }
 
-    private void SetColor()
+    protected void SetColor()
     {
         var randomColorOrder = Constants.HexColorMap[GameManager.GridManager.startPoint + No()];
-        // var randomColorOrder = Random.Range(0, (int) GameManager.GridManager.colorCountEnum);
         hexColor = (HexColor) Enum.ToObject(typeof(HexColor), randomColorOrder);
         Image.color = GameManager.Constants.colors[(int) hexColor];
     }

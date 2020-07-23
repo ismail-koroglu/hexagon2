@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.iOS;
+using static UnityEngine.Debug;
 
 public class GameManager : CustomBehaviour
 {
@@ -17,6 +18,7 @@ public class GameManager : CustomBehaviour
     public ImgManager ImgManager;
     public FallingManager FallingManager;
     public PointManager PointManager;
+    public GameOver GameOver;
 
     public event Action OnSetTriple;
     public event Action OnStartRotation;
@@ -27,9 +29,12 @@ public class GameManager : CustomBehaviour
     public event Action OnStartFalling;
     public event Action OnStopFalling;
     public event Action<int, Transform> OnAddPoint;
+    public event Action OnFinishGame;
+
 
     public bool IsRotating;
     public bool IsFalling;
+    public bool IsGameFinished;
 
     public void Awake()
     {
@@ -46,6 +51,7 @@ public class GameManager : CustomBehaviour
         ImgManager.Initialize(this);
         FallingManager.Initialize(this);
         PointManager.Initialize(this);
+        GameOver.Initialize(this);
 
         AddPoint(0, null);
     }
@@ -93,5 +99,11 @@ public class GameManager : CustomBehaviour
     public void AddPoint(int point, Transform slot)
     {
         OnAddPoint?.Invoke(point, slot);
+    }
+
+    public void FinishGame()
+    {
+        Log("___ :" + "oyun bitti");
+        OnFinishGame?.Invoke();
     }
 }

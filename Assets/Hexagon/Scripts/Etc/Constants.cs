@@ -83,7 +83,7 @@ public class Constants : CustomBehaviour
         new Color(0.16f, 0.78f, 0.41f),
         new Color(0.90f, 0.47f, 0.13f),
         new Color(0.58f, 0.33f, 0.70f),
-        new Color(0.90f, 0.28f, 0.22f),
+        new Color(1.00f, 0.18f, 0.22f),
         new Color(0.93f, 0.74f, 0.03f)
     };
 
@@ -92,6 +92,7 @@ public class Constants : CustomBehaviour
     /****************************************************************************************/
 
     public readonly int OneSlotPoint = 5;
+    public readonly int CountDownStartValue = 3;
     public readonly int[] tripleKeyEven = {0, 1, 1, 1, 0, 2};
     public readonly int[] tripleKeyOdd = {1, 2, 0, 2, 1, 1};
 

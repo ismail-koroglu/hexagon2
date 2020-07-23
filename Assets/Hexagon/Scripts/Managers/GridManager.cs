@@ -32,8 +32,10 @@ public class GridManager : CustomBehaviour
     private readonly Vector2 hexDiff = new Vector2(120, 69); //Difference between two hex;
     private Constants Constants;
     private V2 gridSize;
+    private int imgCreatingCounter;
 
     public int startPoint;
+
 
     /****************************************************************************************/
     private void Start()
@@ -128,7 +130,9 @@ public class GridManager : CustomBehaviour
     public Img GenerateImg(Slot slot)
     {
         // var randomColorOrder = Constants.HexColorMap[startPoint + no];
-        var imgGo = Instantiate(img);
+        imgCreatingCounter++;
+        var hexOrBomb = imgCreatingCounter == 30 ? bomb : img;
+        var imgGo = Instantiate(hexOrBomb);
         var pos = slot.transform.position;
         imgGo.transform.position = new Vector3(pos.x, pos.y, 0);
         imgGo.transform.parent = imgBkg;

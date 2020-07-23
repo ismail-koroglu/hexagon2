@@ -111,7 +111,7 @@ public class InputManager : CustomBehaviour
 
     private void Update()
     {
-        if (GameManager.IsRotating || GameManager.IsFalling) return;
+        if (GameManager.IsRotating || GameManager.IsFalling || GameManager.IsGameFinished) return;
 
         if (Input.GetMouseButtonDown(0))
         {

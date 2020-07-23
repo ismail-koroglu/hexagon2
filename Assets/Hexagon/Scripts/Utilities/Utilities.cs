@@ -1,8 +1,9 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
-
+using DG.Tweening;
 public static class Utilities
 {
     public static void Open(this CanvasGroup canvas)
@@ -76,5 +77,11 @@ public static class Utilities
         }
 
         return false;
+    }
+    
+    public static void Delay(Action onComplete, float duration)
+    {
+        var y = 0f;
+        DOTween.To(() => y, k => y = k, 1, duration).OnStart(() => y = 0).OnComplete(() => onComplete());
     }
 }
