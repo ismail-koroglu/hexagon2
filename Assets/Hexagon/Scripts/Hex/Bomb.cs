@@ -1,8 +1,10 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using Hexagon.Basics;
 using UnityEngine;
 using TMPro;
+using DG.Tweening;
 using static UnityEngine.Debug;
 
 public class Bomb : Img
@@ -13,12 +15,20 @@ public class Bomb : Img
 
     private void CountDown()
     {
-        // if (!isFalling) countDown--;
         countDown--;
         countDownTm.text = countDown.ToString();
         isFalling = true;
-        if (countDown <= 0) GameManager.FinishGame();
-        Log("___ :" + countDown);
+        if (countDown <= 0)
+        {
+            transform.DOShakePosition(3, 20, 90, 50f, true).OnComplete(() =>
+            {
+                GameManager.FinishGame();
+                gameObject.SetActive(false);
+            });
+        }
+
+        var pos = transform.position;
+        transform.DOShakePosition(2, 20, 90, 50f, true).OnComplete(() => transform.position = pos);
     }
 
     public override void Initialize(GameManager gameManager)

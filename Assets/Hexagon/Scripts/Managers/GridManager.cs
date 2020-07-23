@@ -24,7 +24,7 @@ public class GridManager : CustomBehaviour
     public ColorCount colorCountEnum;
     public Transform slotBkg, imgBkg;
     public V2 GetGridSize => gridSize;
-    public GameObject slot, bomb, img;
+    public GameObject slot, bombPrf, img;
     public List<V2[]> SliceMap;
     public List<V2[]> SliceHexMapOdd;
     public List<V2[]> SliceHexMapEven;
@@ -35,7 +35,7 @@ public class GridManager : CustomBehaviour
     private int imgCreatingCounter;
 
     public int startPoint;
-
+    public Bomb Bomb;
 
     /****************************************************************************************/
     private void Start()
@@ -130,9 +130,18 @@ public class GridManager : CustomBehaviour
     public Img GenerateImg(Slot slot)
     {
         // var randomColorOrder = Constants.HexColorMap[startPoint + no];
+        GameObject imgGo;
         imgCreatingCounter++;
-        var hexOrBomb = imgCreatingCounter == 30 ? bomb : img;
-        var imgGo = Instantiate(hexOrBomb);
+        if (imgCreatingCounter == 30)
+        {
+            imgGo = Instantiate(bombPrf);
+            Bomb = imgGo.GetComponent<Bomb>();
+        }
+        else
+        {
+            imgGo = Instantiate(img);
+        }
+
         var pos = slot.transform.position;
         imgGo.transform.position = new Vector3(pos.x, pos.y, 0);
         imgGo.transform.parent = imgBkg;

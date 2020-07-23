@@ -92,7 +92,7 @@ public class Constants : CustomBehaviour
     /****************************************************************************************/
 
     public readonly int OneSlotPoint = 5;
-    public readonly int CountDownStartValue = 3;
+    public readonly int CountDownStartValue = 2;
     public readonly int[] tripleKeyEven = {0, 1, 1, 1, 0, 2};
     public readonly int[] tripleKeyOdd = {1, 2, 0, 2, 1, 1};
 
@@ -250,3 +250,5 @@ public enum ColorCount
     Five = 5,
     Six = 6
 }
+
+public enum Swipe { None, Up, Down, Left, Right };
