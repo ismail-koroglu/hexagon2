@@ -110,11 +110,18 @@ public class InputManager : CustomBehaviour
         GameManager.OnStopRotation -= StopRotation;
     }
 
+    private float buttonDownCounter = 0;
+
     private void Update()
     {
         if (GameManager.IsRotating || GameManager.IsFalling || GameManager.IsGameFinished) return;
 
-        if (Input.GetMouseButtonUp(0))
+        if (Input.GetMouseButton(0))
+        {
+            buttonDownCounter += Time.deltaTime;
+        }
+
+        if (Input.GetMouseButtonUp(0) && buttonDownCounter < 0.5f)
         {
             var objUnderMouse = GetCollider();
             if (objUnderMouse == null) return;
@@ -124,6 +131,7 @@ public class InputManager : CustomBehaviour
             outline.transform.position = SelectedSlice.transform.position;
             outline.transform.rotation = Quaternion.Euler(SelectedSlice.RotVector3);
             // outline.transform.SetAsLastSibling();
+            DOTween.To(() => buttonDownCounter, k => buttonDownCounter = k, 0, 1);
             ParentTriple();
         }
         else if (Input.GetKeyDown(KeyCode.Q))
@@ -142,11 +150,6 @@ public class InputManager : CustomBehaviour
         {
             SceneManager.LoadScene(SceneManager.GetActiveScene().name);
         }
-
-        else if (Input.GetKeyDown(KeyCode.E))
-        {
-            GameManager.Calculate();
-        }
     }
 
     public void RoteteN()
@@ -163,13 +166,13 @@ public class InputManager : CustomBehaviour
 
     public void RoteteW()
     {
-        GameManager.GridManager.rotateType = RotateType.Ccw;
+        GameManager.GridManager.rotateType = RotateType.Cw;
         GameManager.StartRotation();
     }
 
     public void RoteteE()
     {
-        GameManager.GridManager.rotateType = RotateType.Cw;
+        GameManager.GridManager.rotateType = RotateType.Ccw;
         GameManager.StartRotation();
     }
 }

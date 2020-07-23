@@ -132,7 +132,7 @@ public class GridManager : CustomBehaviour
         // var randomColorOrder = Constants.HexColorMap[startPoint + no];
         GameObject imgGo;
         imgCreatingCounter++;
-        if (imgCreatingCounter == 30)
+        if (imgCreatingCounter == 20)
         {
             imgGo = Instantiate(bombPrf);
             Bomb = imgGo.GetComponent<Bomb>();
