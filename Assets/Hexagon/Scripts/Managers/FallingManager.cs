@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using System.Security.Cryptography;
+using DG.Tweening;
 using UnityEngine;
 using static UnityEngine.Debug;
 
@@ -47,7 +48,7 @@ public class FallingManager : CustomBehaviour
 
             if (emptyNo != -1 && allSlots[emptyNo].img == null && slot.img != null)
             {
-                slot.img.transform.position = allSlots[emptyNo].transform.position;
+                slot.img.transform.DOMove(allSlots[emptyNo].transform.position, .5f).SetEase(Ease.InSine);
                 allSlots[emptyNo].img = slot.img;
                 slot.img = null;
             }
