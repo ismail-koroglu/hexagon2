@@ -122,7 +122,7 @@ public class InputManager : CustomBehaviour
             GameManager.SetTriple();
             outline.transform.position = SelectedSlice.transform.position;
             outline.transform.rotation = Quaternion.Euler(SelectedSlice.RotVector3);
-            outline.transform.SetAsLastSibling();
+            // outline.transform.SetAsLastSibling();
             ParentTriple();
         }
         else if (Input.GetKeyDown(KeyCode.Q))

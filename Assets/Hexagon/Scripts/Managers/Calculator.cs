@@ -58,7 +58,7 @@ public class Calculator : CustomBehaviour
         }
 
         AddRelatedImgs();
-    } 
+    }
 
     /****************************************************************************************/
     private void FindRelationsForSix()
@@ -117,17 +117,7 @@ public class Calculator : CustomBehaviour
         {
             result = true;
             DestroyImgs();
-            GameManager.StartFalling();
-            StartCoroutine(StartIe());
-
-            IEnumerator StartIe()
-            {
-                yield return new WaitForSeconds(3);
-                GameManager.StopFalling();
-            }
         }
-
-        // Log("___ :" + relations.Count);
     }
 
     private void DestroyImgs()
@@ -136,6 +126,8 @@ public class Calculator : CustomBehaviour
         {
             Destroy(slot.img.gameObject);
         }
+        GameManager.StartFalling();
+        GameManager.AddPoint(GameManager.Constants.OneSlotPoint * RelatedSlots.Count, RelatedSlots[0].transform);
     }
     /****************************************************************************************/
 

@@ -139,6 +139,18 @@ public class GridManager : CustomBehaviour
         return imgCmp;
     }
 
+    public void GenerateImgAfterFall()
+    {
+        startPoint = Random.Range(0, 20);
+        foreach (var slot in AllSlots)
+        {
+            if (slot.img == null)
+            {
+                var img = GenerateImg(slot);
+                slot.img = img;
+            }
+        }
+    }
     /****************************************************************************************/
 
     public override void Initialize(GameManager gameManager)
@@ -146,5 +158,11 @@ public class GridManager : CustomBehaviour
         base.Initialize(gameManager);
         startPoint = Random.Range(0, 20);
         Constants = GameManager.Constants;
+        GameManager.OnStopFalling += GenerateImgAfterFall;
+    }
+
+    private void OnDestroy()
+    {
+        GameManager.OnStopFalling -= GenerateImgAfterFall;
     }
 }

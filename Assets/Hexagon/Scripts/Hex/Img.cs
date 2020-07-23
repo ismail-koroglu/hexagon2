@@ -22,18 +22,12 @@ public class Img : CustomBehaviour
         // var randomColorOrder = Random.Range(0, (int) GameManager.GridManager.colorCountEnum);
         hexColor = (HexColor) Enum.ToObject(typeof(HexColor), randomColorOrder);
         Image.color = GameManager.Constants.colors[(int) hexColor];
-        Log("___ :" + No());
     }
 
     private int No()
     {
-        var c = 0;
-        foreach (var img in GameManager.GridManager.AllImgs)
-        {
-            c++;
-            if (this == img) return c;
-        }
-
-        return 0;
+        var name = gameObject.name;
+        name = name.Remove(0, 4);
+        return Convert.ToInt16(name);
     }
 }

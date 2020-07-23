@@ -16,15 +16,8 @@ public class GameManager : CustomBehaviour
     public Calculator Calculator;
     public ImgManager ImgManager;
     public FallingManager FallingManager;
+    public PointManager PointManager;
 
-    public event Action OnStartGame;
-    public event Action OnCountdownFinished;
-    public event Action OnGameFinished;
-    public event Action OnRestartGame;
-    public event Action OnResumeGame;
-    public event Action OnResetToMainMenu;
-    public event Action OnLevelCompleted;
-    public event Action OnLevelFailed;
     public event Action OnSetTriple;
     public event Action OnStartRotation;
     public event Action OnStopRotation;
@@ -33,6 +26,7 @@ public class GameManager : CustomBehaviour
     public event Action OnCalculate;
     public event Action OnStartFalling;
     public event Action OnStopFalling;
+    public event Action<int, Transform> OnAddPoint;
 
     public bool IsRotating;
     public bool IsFalling;
@@ -51,47 +45,11 @@ public class GameManager : CustomBehaviour
         Calculator.Initialize(this);
         ImgManager.Initialize(this);
         FallingManager.Initialize(this);
+        PointManager.Initialize(this);
+
+        AddPoint(0, null);
     }
 
-    public void StartGame()
-    {
-        OnStartGame?.Invoke();
-    }
-
-    public void CountdownFinished()
-    {
-        OnCountdownFinished?.Invoke();
-    }
-
-    public void GameFinished()
-    {
-        OnGameFinished?.Invoke();
-    }
-
-    public void ResetToMainMenu()
-    {
-        OnResetToMainMenu?.Invoke();
-    }
-
-    public void RestartGame()
-    {
-        OnRestartGame?.Invoke();
-    }
-
-    public void ResumeGame()
-    {
-        OnResumeGame?.Invoke();
-    }
-
-    public void LevelCompleted()
-    {
-        OnLevelCompleted?.Invoke();
-    }
-
-    public void LevelFailed()
-    {
-        OnLevelFailed?.Invoke();
-    }
 
     public void SetTriple()
     {
@@ -108,11 +66,6 @@ public class GameManager : CustomBehaviour
     {
         IsRotating = false;
         OnStopRotation?.Invoke();
-    }
-
-    public void CheckMatching()
-    {
-        OnCheckMatching?.Invoke();
     }
 
     public void Match()
@@ -135,5 +88,10 @@ public class GameManager : CustomBehaviour
     {
         IsFalling = false;
         OnStopFalling?.Invoke();
+    }
+
+    public void AddPoint(int point, Transform slot)
+    {
+        OnAddPoint?.Invoke(point, slot);
     }
 }

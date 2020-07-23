@@ -1,18 +1,72 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.Security.Cryptography;
 using UnityEngine;
+using static UnityEngine.Debug;
+
 
 public class FallingManager : CustomBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
+    private GridManager gridManager;
+    private List<Slot> emptySlots = new List<Slot>();
+    private List<Slot> allSlots;
+    private bool IsLooping = false;
+
+    private void StartFalling()
     {
-        
+        IsLooping = true;
+        StartCoroutine(StartIe());
+        StartCoroutine(StopIe());
     }
 
-    // Update is called once per frame
-    void Update()
+    private void StopFalling()
     {
-        
+        IsLooping = false;
+    }
+
+    IEnumerator StartIe()
+    {
+        while (IsLooping)
+        {
+            yield return new WaitForSeconds(.1f);
+            SlideUpSlots();
+        }
+    }
+
+    IEnumerator StopIe()
+    {
+        yield return new WaitForSeconds(1);
+        GameManager.StopFalling();
+    }
+
+    private void SlideUpSlots()
+    {
+        foreach (var slot in allSlots)
+        {
+            var emptyNo = slot.Neighbors[3];
+
+            if (emptyNo != -1 && allSlots[emptyNo].img == null && slot.img != null)
+            {
+                slot.img.transform.position = allSlots[emptyNo].transform.position;
+                allSlots[emptyNo].img = slot.img;
+                slot.img = null;
+            }
+        }
+    }
+
+    /****************************************************************************************/
+    public override void Initialize(GameManager gameManager)
+    {
+        base.Initialize(gameManager);
+        gridManager = GameManager.GridManager;
+        allSlots = gridManager.AllSlots;
+        GameManager.OnStartFalling += StartFalling;
+        GameManager.OnStopFalling += StopFalling;
+    }
+
+    private void OnDestroy()
+    {
+        GameManager.OnStartFalling -= StartFalling;
+        GameManager.OnStopFalling -= StopFalling;
     }
 }
